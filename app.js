@@ -12,24 +12,31 @@ const palette = document.querySelector('#palette');
 const bgImage = document.querySelector('#bg-image');
 const bgDisplay = document.querySelector('#bg-display');
 const bgShow = document.querySelector('#show-bg');
+const loadBtn = document.querySelector('#load');
+const saveBtn = document.querySelector('#save');
+const nameInput = document.querySelector('#design-name');
 
 let sw = Number(swScale.value); // stitch width
+let cw = Number(canWidth.value);
+let ch = Number(canHeight.value);
 let stitches = [];
 let backstitches = [];
+let ariaColor = ' #ccc0c0';
 let currentColor = colorPicker.value;
 let currentShape = 0;
 let bsMode = false;
 let eraseMode = false;
 let mouseDown = false;
 let currentBackstitch = null;
+let designName = '';
 
 // Scale on load for small devices
-if (Number(canWidth.value) * sw > window.innerWidth) {
-  swScale.value = sw = Math.round(( 0.9 * window.innerWidth ) / Number(canWidth.value));
+if (cw * sw > window.innerWidth) {
+  swScale.value = sw = Math.round(( 0.9 * window.innerWidth ) / cw);
 }
 
-can.width = Number(canWidth.value) * sw;
-can.height = Number(canHeight.value) * sw;
+can.width = cw * sw;
+can.height = ch * sw;
 
 can.addEventListener('mousedown', e => {
   mouseStart(e);
@@ -63,30 +70,23 @@ colorPicker.addEventListener('input', e => {
 });
 
 ariaPicker.addEventListener('input', e => {
+  ariaColor = ariaPicker.value;
   document.body.style.backgroundColor = ariaPicker.value;
 });
 
 canWidth.addEventListener('input', e => {
-  can.width = sw * Number(canWidth.value);
-  bgDisplay.style.width = can.width + 'px';
-  cullOutside();
-  draw();
+  cw = Number(canWidth.value);
+  resizeCanvas();
 });
 
 canHeight.addEventListener('input', e => {
-  can.height = sw * Number(canHeight.value);
-  bgDisplay.style.height = can.height + 'px';
-  cullOutside();
-  draw();
+  ch = Number(canHeight.value);
+  resizeCanvas();
 });
 
 swScale.addEventListener('input', e => {
   sw = Number(swScale.value);
-  can.width = canWidth.value * sw;
-  can.height = canHeight.value * sw;
-  bgDisplay.style.width = can.width + 'px';
-  bgDisplay.style.height = can.height + 'px';
-  draw();
+  resizeCanvas();
 });
 
 useBs.addEventListener('click', e => {
@@ -109,7 +109,26 @@ bgShow.addEventListener('click', e => {
   bgDisplay.classList.toggle('hidden');
 });
 
+loadBtn.addEventListener('input', e => {
+  if (!e.target.files[0]) return;
+  loadFromFile(e.target.files[0]);
+});
+
+nameInput.addEventListener('input', (e) => {
+  designName = nameInput.value;
+  updateSaveLink();
+});
+
 draw();
+
+function resizeCanvas() {
+  can.width = cw * sw;
+  can.height = ch * sw;
+  bgDisplay.style.width = can.width + 'px';
+  bgDisplay.style.height = can.height + 'px';
+  cullOutside();
+  draw();
+}
 
 function mouseStart(e) {
   mouseDown = true;
@@ -264,16 +283,16 @@ function removeBackstitch(e) {
 
 function cullOutside() {
   stitches = stitches.filter(stitch => (
-    stitch.x < Number(canWidth.value) &&
-    stitch.y < Number(canHeight.value)
+    stitch.x < cw &&
+    stitch.y < ch
     )
   );
   
   backstitches = backstitches.filter(stitch => (
-    !((stitch.startX >= Number(canWidth.value) &&
-    stitch.endX >= Number(canWidth.value)) ||
-    (stitch.startY >= Number(canHeight.value) &&
-    stitch.endY >= Number(canHeight.value))
+    !((stitch.startX >= cw &&
+    stitch.endX >= cw) ||
+    (stitch.startY >= ch &&
+    stitch.endY >= ch)
     ))
   );
 }
@@ -303,12 +322,52 @@ function updatePalette() {
   });
 }
 
+function updateSaveLink() {
+  const ts = Date.now();
+  const dataToSave = {
+    designName,
+    cw,
+    ch,
+    sw,
+    stitches,
+    backstitches,
+    ariaColor,
+    timestamp: ts
+  };
+  const file = new Blob([JSON.stringify(dataToSave)], { type: 'application/json' });
+  saveBtn.href = URL.createObjectURL(file);
+  saveBtn.download = `${designName}-${ts}.json`;
+}
+
+function loadFromFile(file) {
+  const reader = new FileReader();
+  reader.onload = (loadEvent) => {
+    const jsonData = JSON.parse(loadEvent.target.result);
+    designName = jsonData.name || designName;
+    cw = jsonData.cw || cw;
+    ch = jsonData.ch || ch;
+    sw = jsonData.sw || sw;
+    stitches = jsonData.stitches || stitches;
+    backstitches = jsonData.backstitches || backstitches;
+    ariaColor = jsonData.ariaColor || ariaColor;
+    canWidth.value = cw;
+    canHeight.value = ch;
+    swScale.value = sw;
+    nameInput.value = designName;
+    ariaPicker.value = ariaColor;
+    resizeCanvas();
+    updatePalette();
+  };
+  reader.readAsText(file);
+}
+
 function draw() {
   can.width = can.width;
   drawStitches();
   drawBackstitches();
   drawCurrentBackstitch();
   drawGrid();
+  updateSaveLink();
 }
 
 function drawStitches() {

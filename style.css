@@ -17,6 +17,20 @@ canvas {
   border-bottom: 1px solid #666;
 }
 
+input[type=number] {
+  max-width: 4em;
+}
+
+input[type=file] {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
 #canvas-wrapper {
   margin-top: 2em;
   margin-bottom: 2em;
@@ -53,10 +67,6 @@ canvas {
   margin-right: 1em;
 }
 
-input[type=number] {
-  max-width: 4em;
-}
-
 #palette-wrap {
   margin: 0 2em;
   display: flex;
@@ -75,6 +85,40 @@ input[type=number] {
   border: 1px solid #666;
   border-radius: 3px;
   margin-right: 1px;
+  cursor: pointer;
+}
+
+.file-button {
+  border: 1px solid #666;
+  border-radius: 3px;
+  padding: 0.25em;
+  cursor: pointer;
+}
+
+#save {
+  color: white;
+  mix-blend-mode: difference;
+  border: 1px solid #666;
+  border-radius: 3px;
+  text-decoration: none;
+  padding: 0.25em;
+  cursor: pointer;
+}
+
+#show-bg {
+  all: unset;
+  color: white;
+  mix-blend-mode: difference;
+  border: 1px solid #666;
+  border-radius: 3px;
+  text-decoration: none;
+  padding: 0.25em;
+  background: transparent;
+  cursor: pointer;
+}
+
+#instructions {
+  margin-top: 2em;
 }
 
 @media print {

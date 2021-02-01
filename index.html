@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cross Stitch Designer</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
   <div id='canvas-wrapper'>
@@ -28,7 +29,7 @@
   </div>
   <div class='controls'>
     <div>
-      <label for='bg-image'>Background Image</label>
+      <label for='bg-image' class='file-button'>Background Image</label>
       <input type='file' id='bg-image' />
     </div>
     <div>
@@ -57,6 +58,19 @@
     <div>
       <label for='erase-mode'>Erase Mode</label>
       <input type='checkbox' id='erase-mode' />
+    </div>
+  </div>
+  <div class='controls'>
+    <div>
+      <label for='design-name'>Design Name</label>
+      <input type='text' id='design-name' />
+    </div>
+    <div>
+      <label for='load' class='file-button'>Load Design</label>
+      <input type='file' id='load' />
+    </div>
+    <div>
+      <a id='save'>Save Design</a>
     </div>
   </div>
   <div id='instructions'>
