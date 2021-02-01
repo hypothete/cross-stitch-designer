@@ -1,0 +1,84 @@
+body {
+  background-color: #ccc0c0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  margin: 1em;
+}
+
+p, label {
+  color: white;
+  mix-blend-mode: difference;
+}
+
+canvas {
+  border-right: 1px solid #666;
+  border-bottom: 1px solid #666;
+}
+
+#canvas-wrapper {
+  margin-top: 2em;
+  margin-bottom: 2em;
+  overflow: hidden;
+  position: relative;
+}
+
+#bg-display {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 50%;
+  background-position: center;
+  background-size: cover;
+  z-index: -1;
+  touch-action: none;
+}
+
+#bg-display.hidden {
+  display: none;
+}
+
+.controls {
+  margin-top: 1em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.controls > div {
+  margin-right: 1em;
+}
+
+input[type=number] {
+  max-width: 4em;
+}
+
+#palette-wrap {
+  margin: 0 2em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#palette {
+  margin-left: 0.25em;
+  max-width: 280px;
+}
+
+.swatch {
+  width: 2em;
+  height: 2em;
+  border: 1px solid #666;
+  border-radius: 3px;
+  margin-right: 1px;
+}
+
+@media print {
+  .controls, #instructions {
+    display: none;
+  }
+}

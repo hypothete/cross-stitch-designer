@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cross Stitch Designer</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id='canvas-wrapper'>
+    <div id='bg-display'></div>
+    <canvas>
+  </canvas>
+  </div>
+  <div class='controls'>
+    <div>
+      <label for='can-width'>Canvas width</label>
+      <input type='number' id='can-width' value='24' />
+    </div>
+    <div>
+      <label for='can-width'>Canvas height</label>
+      <input type='number' id='can-height' value='16' />
+    </div>
+    <div>
+      <label for='can-width'>Stitch Scale</label>
+      <input type='number' id='sw-scale' value='30' />
+    </div>
+  </div>
+  <div class='controls'>
+    <div>
+      <label for='bg-image'>Background Image</label>
+      <input type='file' id='bg-image' />
+    </div>
+    <div>
+      <button id='show-bg'>Toggle Background</button>
+    </div>
+  </div>
+  <div class='controls'>
+    <div>
+      <label for='current-color'>Stitch Color</label>
+      <input id='current-color' type='color' />
+    </div>
+    <div id='palette-wrap'>
+      <label for='palette'>Palette</label>
+      <div id='palette'></div>
+    </div>
+    <div>
+      <label for='current-color'>Aria Color</label>
+      <input id='aria-color' type='color' value='#ccc0c0' />
+    </div>
+  </div>
+  <div class='controls'>
+    <div>
+      <label for='backstitch-mode'>Backstitch Mode</label>
+      <input type='checkbox' id='backstitch-mode' />
+    </div>
+    <div>
+      <label for='erase-mode'>Erase Mode</label>
+      <input type='checkbox' id='erase-mode' />
+    </div>
+  </div>
+  <div id='instructions'>
+    <p>
+      Click and drag to place stitches. When backstitch mode is checked, clicking and dragging will create a backstitch.
+    </p>
+    
+    <p>
+      When erase mode is checked, clicking and dragging clears stitches or backstitches.
+    </p>
+
+    <p>
+      This page can be printed for use as a pattern.
+    </p>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
