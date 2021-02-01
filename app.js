@@ -355,6 +355,7 @@ function loadFromFile(file) {
     swScale.value = sw;
     nameInput.value = designName;
     ariaPicker.value = ariaColor;
+    document.body.style.backgroundColor = ariaPicker.value;
     resizeCanvas();
     updatePalette();
   };
